@@ -52,12 +52,16 @@ def fn(result):
 
 def experiment():
     threads = []
-    for _ in range(5):
-        for i in range(0, (len(urls)-1)):
-            result = urls[i]
-            t = threading.Thread(target=fn, args=(result, ))
-            t.start()
-            threads.append([t, result])
+    nThreads = 5
+    count = 0
+    for i in range(nThreads):
+        result = urls[i]
+        t = threading.Thread(target=fn, args=(result, ))
+        t.start()
+        threads.append([t, result])
+        count += 1
+        if count == 5 and count < (len(urls)-1):
+            nThreads += 5
     thread_number = 1
     for thread, result in threads:
         thread.join()
